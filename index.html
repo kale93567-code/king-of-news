@@ -4,186 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>King of News - MKI Tech</title>
-    <!-- App Icon / Logo Link -->
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #000; color: #FFF; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-
-        .app-container {
-            width: 100%; max-width: 414px; height: 100vh; background: #0B0E14;
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-            border: 1px solid #00F0FF33;
-        }
-
-        /* TOP BAR: Logo + Brand + Radar Toggle */
-        .top-bar {
-            position: absolute; top: 0; width: 100%; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px; background: linear-gradient(180deg, rgba(0,0,0,0.8), transparent);
-        }
-        .brand-header { display: flex; align-items: center; gap: 8px; }
-        .app-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #00F0FF; object-fit: cover; }
-        .brand-logo { font-weight: 800; font-size: 1rem; color: #00F0FF; text-shadow: 0 0 10px #00F0FF; }
-        .top-actions { display: flex; gap: 10px; align-items: center; }
-        .radar-toggle {
-            background: rgba(0, 240, 255, 0.2); border: 1px solid #00F0FF;
-            color: #00F0FF; padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer;
-        }
-        .icon-btn { background: none; border: none; color: #FFF; font-size: 1.2rem; cursor: pointer; }
-
-        /* REELS MAIN SCREEN */
-        .reels-container {
-            width: 100%; height: 100vh; scroll-snap-type: y mandatory; overflow-y: scroll;
-        }
-        .reel-card {
-            width: 100%; height: 100vh; scroll-snap-align: start; position: relative;
-            background: #111; display: flex; justify-content: center; align-items: center;
-        }
-        .reel-video { width: 100%; height: 100%; object-fit: cover; }
-
-        /* SIDE ACTION BUTTONS */
-        .side-actions {
-            position: absolute; right: 12px; bottom: 100px;
-            display: flex; flex-direction: column; gap: 18px; align-items: center; z-index: 10;
-        }
-        .action-item { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #FFF; cursor: pointer; }
-        .action-icon {
-            width: 45px; height: 45px; background: rgba(0,0,0,0.5); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 1.3rem;
-            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); margin-bottom: 3px;
-        }
-        .star-icon { background: rgba(255, 215, 0, 0.3); border-color: #FFD700; color: #FFD700; }
-
-        /* REEL INFO OVERLAY */
-        .reel-info {
-            position: absolute; bottom: 80px; left: 12px; right: 70px; z-index: 10;
-        }
-        .user-id { font-weight: bold; color: #00F0FF; font-size: 0.9rem; margin-bottom: 5px; text-shadow: 0 0 5px #00F0FF; }
-        .reel-desc { font-size: 0.85rem; line-height: 1.3; color: #EEE; }
-
-        /* BOTTOM NAVIGATION BAR */
-        .bottom-nav {
-            position: absolute; bottom: 0; width: 100%; height: 60px;
-            background: #0B0E14; border-top: 1px solid #1E293B;
-            display: flex; justify-space-around: align-items: center; justify-content: space-around; z-index: 100;
-        }
-        .nav-tab { display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; color: #64748B; cursor: pointer; }
-        .nav-tab.active { color: #00F0FF; font-weight: bold; }
-        .live-btn-main {
-            background: linear-gradient(135deg, #FF003C, #990024);
-            padding: 8px 15px; border-radius: 20px; color: #FFF; font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 0, 60, 0.6);
-        }
-
-        /* LIVE POPUP MODAL */
-        .modal {
-            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 200; justify-content: center; align-items: center; flex-direction: column; gap: 15px;
-        }
-        .modal-btn {
-            width: 80%; padding: 15px; background: #161D2A; border: 1px solid #00F0FF;
-            color: #00F0FF; font-weight: bold; border-radius: 10px; font-size: 1rem; cursor: pointer; text-align: center;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #000; color: #fff; display: flex; flex-direction: column; height: 100vh; justify-content: space-between; }
+        .header { padding: 15px; background: #111; text-align: center; font-weight: bold; font-size: 1.2rem; color: #ffd700; border-bottom: 1px solid #333; }
+        .content { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .section { display: none; width: 100%; max-width: 400px; }
+        .active { display: block; }
+        .reel-card { background: #1a1a1a; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #333; text-align: left; }
+        .author { color: #00e5ff; font-weight: bold; margin-bottom: 8px; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; font-size: 1rem; }
+        input { background: #222; color: #fff; border: 1px solid #444; }
+        button { background: #e50914; color: white; font-weight: bold; cursor: pointer; }
+        .bottom-nav { display: flex; justify-content: space-around; background: #111; padding: 12px 0; border-top: 1px solid #333; position: fixed; bottom: 0; width: 100%; }
+        .nav-btn { color: #888; background: none; border: none; font-size: 0.9rem; width: auto; padding: 0; margin: 0; cursor: pointer; }
+        .nav-btn.active-tab { color: #00e5ff; font-weight: bold; }
+        .live-btn { color: #ff0055; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <!-- TOP BAR -->
-        <div class="top-bar">
-            <div class="brand-header">
-                <img src="logo.png" alt="Logo" class="app-logo-img" onerror="this.style.display='none'">
-                <div class="brand-logo">KING OF NEWS</div>
-            </div>
-            <div class="top-actions">
-                <button class="radar-toggle" id="radarBtn" onclick="toggleRadar()">📡 5 KM RADAR</button>
-                <button class="icon-btn">⚙️</button>
-            </div>
-        </div>
+    <div class="header">👑 King of News</div>
 
-        <!-- REELS SCREEN -->
-        <div class="reels-container">
-            
-            <!-- REEL 1 -->
+    <div class="content">
+        <!-- Reels Section -->
+        <div id="reels" class="section active">
             <div class="reel-card">
-                <video class="reel-video" autoplay loop muted playsinline src="https://assets.mixkit.co/videos/preview/mixkit-traffic-on-a-highway-at-night-42230-large.mp4"></video>
-                
-                <div class="side-actions">
-                    <div class="action-item" onclick="likeReel(this)"><div class="action-icon">❤️</div><span class="count">1.2k</span></div>
-                    <div class="action-item" onclick="unlikeReel(this)"><div class="action-icon">👎</div><span>Unlike</span></div>
-                    <div class="action-item"><div class="action-icon">💬</div><span>45</span></div>
-                    <div class="action-item"><div class="action-icon">↗️</div><span>Share</span></div>
-                    <div class="action-item" onclick="sendStar()"><div class="action-icon star-icon">⭐</div><span style="color:#FFD700">Stars</span></div>
-                </div>
-
-                <div class="reel-info">
-                    <div class="user-id">@Galli_Informer_MK 📍 (0.8 km)</div>
-                    <div class="reel-desc">हायवेवर मोठी ट्रॅफिक जॅम! ५ किमी परिसरातील लोकांनी हा रस्ता टाळावा.</div>
-                </div>
+                <div class="author">@Galli_Informer_MK 📍 (0.8 km)</div>
+                <p>हायवेवर मोठी ट्रॅफिक जाम! ५ किमी परिसरातील लोकांनी हा रस्ता टाळावा.</p>
             </div>
-
-            <!-- REEL 2 -->
-            <div class="reel-card">
-                <video class="reel-video" loop muted playsinline src="https://assets.mixkit.co/videos/preview/mixkit-fire-and-smoke-in-a-forest-41527-large.mp4"></video>
-                
-                <div class="side-actions">
-                    <div class="action-item" onclick="likeReel(this)"><div class="action-icon">❤️</div><span class="count">850</span></div>
-                    <div class="action-item" onclick="unlikeReel(this)"><div class="action-icon">👎</div><span>Unlike</span></div>
-                    <div class="action-item"><div class="action-icon">💬</div><span>120</span></div>
-                    <div class="action-item"><div class="action-icon">↗️</div><span>Share</span></div>
-                    <div class="action-item" onclick="sendStar()"><div class="action-icon star-icon">⭐</div><span style="color:#FFD700">Stars</span></div>
-                </div>
-
-                <div class="reel-info">
-                    <div class="user-id" style="color:#FF003C">@Emergency_Alert 🚨 (1.5 km)</div>
-                    <div class="reel-desc">मोकळ्या मैदानात कचऱ्याला आग! फायर ब्रिगेड घटनास्थळी पोहचली आहे.</div>
-                </div>
-            </div>
-
         </div>
 
-        <!-- BOTTOM NAV BAR -->
-        <div class="bottom-nav">
-            <div class="nav-tab active">📹 <span>Reels</span></div>
-            <div class="nav-tab">🔍 <span>Search</span></div>
-            <div class="nav-tab" onclick="openLiveModal()"><div class="live-btn-main">🔴 LIVE</div></div>
-            <div class="nav-tab">👤 <span>Profile</span></div>
+        <!-- Search Section -->
+        <div id="search" class="section">
+            <h3>🔍 बातमी किंवा परिसर शोधा</h3>
+            <input type="text" placeholder="येथे टाइप करा (उदा. पुणे, ट्रॅफिक)...">
+            <button onclick="alert('शोध घेतला जात आहे...')">शोधा</button>
         </div>
 
-        <!-- LIVE OPTIONS POPUP -->
-        <div class="modal" id="liveModal">
-            <h3 style="color:#FF003C">🔴 LIVE STREAMING PANEL</h3>
-            <div class="modal-btn" onclick="alert('कॅमेरा चालू होत आहे... तुम्ही लाईव्ह जात आहात!')">🎥 लाईव्ह जावा & व्हिडिओ काढा</div>
-            <div class="modal-btn" onclick="alert('परिसरातील लाईव्ह व्हिडिओ शोधत आहे...')">📺 चालू असलेले लाईव्ह व्हिडिओ पहा</div>
-            <button style="background:none; border:none; color:#AAA; margin-top:10px; cursor:pointer;" onclick="closeLiveModal()">रद्द करा (Close)</button>
+        <!-- Profile Section -->
+        <div id="profile" class="section">
+            <h3>👤 तुमची प्रोफाइल</h3>
+            <input type="text" id="username" placeholder="तुमचे नाव">
+            <input type="text" id="usercity" placeholder="तुमचे शहर/गाव">
+            <button onclick="saveProfile()">सेव्ह करा</button>
+            <p id="profile-msg" style="color: #00ff66; margin-top: 10px;"></p>
         </div>
+    </div>
 
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-btn active-tab" onclick="showTab('reels', this)">📺 Reels</button>
+        <button class="nav-btn" onclick="showTab('search', this)">🔍 Search</button>
+        <button class="nav-btn live-btn" onclick="alert('🔴 LIVE प्रवाह लवकरच सुरू होत आहे!')">🔴 LIVE</button>
+        <button class="nav-btn" onclick="showTab('profile', this)">👤 Profile</button>
     </div>
 
     <script>
-        let is5km = true;
-        function toggleRadar() {
-            let btn = document.getElementById('radarBtn');
-            if(is5km) {
-                btn.innerText = "🌐 ALL INDIA";
-                btn.style.borderColor = "#FF003C"; btn.style.color = "#FF003C";
-            } else {
-                btn.innerText = "📡 5 KM RADAR";
-                btn.style.borderColor = "#00F0FF"; btn.style.color = "#00F0FF";
-            }
-            is5km = !is5km;
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-tab'));
+            
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active-tab');
         }
 
-        function likeReel(el) { alert("❤️ तुम्ही या बातमीला लाईक केले!"); }
-        function unlikeReel(el) { alert("👎 अनलाईक केले."); }
-        function sendStar() { alert("⭐ तुम्ही या गल्ली इन्फॉर्मरला १ स्टार पाठवला!"); }
-
-        function openLiveModal() { document.getElementById('liveModal').style.display = 'flex'; }
-        function closeLiveModal() { document.getElementById('liveModal').style.display = 'none'; }
+        function saveProfile() {
+            const name = document.getElementById('username').value;
+            if(name) {
+                document.getElementById('profile-msg').innerText = "स्वागत आहे, " + name + "! प्रोफाइल सेव्ह झाली.";
+            } else {
+                alert("कृपया नाव टाका!");
+            }
+        }
     </script>
 </body>
 </html>
+
